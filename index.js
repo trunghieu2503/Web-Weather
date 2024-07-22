@@ -10,11 +10,16 @@ const weatherDescriptions = {
     'Rain': 'Mưa',
     'Snow': 'Tuyết',
     'Clouds': 'Mây',
-    'Haze': 'Sương mù',
-    'Mist': 'Sương mù nhẹ',
-    'Thunderstorm': 'Dông',
-    'Drizzle': 'Mưa phùn',
-    'Fog': 'Sương mù dày'
+    'Mist': 'Sương mù'
+};
+
+const weatherImages = {
+    'Clear': 'images/clear.png',
+    'Rain': 'images/rain.png',
+    'Snow': 'images/snow.png',
+    'Clouds': 'images/cloud.png',
+    'Mist': 'images/mist.png',
+    'Default': 'images/404.png'
 };
 
 function fetchWeather() {
@@ -45,31 +50,11 @@ function fetchWeather() {
             const wind = document.querySelector('.weather-details .wind span');
 
             const weatherMain = json.weather[0].main;
-            const weatherDescription = json.weather[0].description;
+            const weatherImage = weatherImages[weatherMain] || weatherImages['Default'];
 
-            switch (weatherMain) {
-                case 'Clear':
-                    image.src = 'images/clear.png';
-                    break;
-                case 'Rain':
-                    image.src = 'images/rain.png';
-                    break;
-                case 'Snow':
-                    image.src = 'images/snow.png';
-                    break;
-                case 'Clouds':
-                    image.src = 'images/cloud.png';
-                    break;
-                case 'Haze':
-                case 'Mist':
-                    image.src = 'images/mist.png';
-                    break;
-                default:
-                    image.src = '';
-            }
-
+            image.src = weatherImage;
             temperature.innerHTML = `${parseInt(json.main.temp)}<span>°C</span>`;
-            description.innerHTML = weatherDescriptions[weatherMain] || weatherDescription;
+            description.innerHTML = weatherDescriptions[weatherMain] || 'Kiểu thời tiết không xác định';
             humidity.innerHTML = `${json.main.humidity}%`;
             wind.innerHTML = `${parseInt(json.wind.speed)} Km/h`;
 
